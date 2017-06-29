@@ -69,6 +69,8 @@ public class BottomBarTab extends LinearLayout {
     private int titleTextAppearanceResId;
     private Typeface titleTypeFace;
 
+    private boolean applyIconsColorFilter;
+
     BottomBarTab(Context context) {
         super(context);
 
@@ -87,12 +89,13 @@ public class BottomBarTab extends LinearLayout {
         setBadgeHidesWhenActive(config.badgeHidesWhenSelected);
         setTitleTextAppearance(config.titleTextAppearance);
         setTitleTypeface(config.titleTypeFace);
+        setApplyIconsColorFilter(config.applyIconsColorFilter);
     }
 
     void prepareLayout() {
         inflate(getContext(), getLayoutResource(), this);
         setOrientation(VERTICAL);
-        setGravity(isTitleless? Gravity.CENTER : Gravity.CENTER_HORIZONTAL);
+        setGravity(isTitleless ? Gravity.CENTER : Gravity.CENTER_HORIZONTAL);
         setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         setBackgroundResource(MiscUtils.getDrawableRes(getContext(), R.attr.selectableItemBackgroundBorderless));
 
@@ -112,6 +115,10 @@ public class BottomBarTab extends LinearLayout {
 
         updateCustomTextAppearance();
         updateCustomTypeface();
+    }
+
+    public void setApplyIconsColorFilter(boolean applyIconsColorFilter) {
+        this.applyIconsColorFilter = applyIconsColorFilter;
     }
 
     @VisibleForTesting
@@ -447,8 +454,10 @@ public class BottomBarTab extends LinearLayout {
 
     private void setColors(int color) {
         if (iconView != null) {
-            iconView.setColorFilter(color);
             iconView.setTag(R.id.bb_bottom_bar_color_id, color);
+            if (applyIconsColorFilter) {
+                iconView.setColorFilter(color);
+            }
         }
 
         if (titleView != null) {
@@ -650,6 +659,7 @@ public class BottomBarTab extends LinearLayout {
         private final int titleTextAppearance;
         private final Typeface titleTypeFace;
         private boolean badgeHidesWhenSelected = true;
+        private boolean applyIconsColorFilter = true;
 
         private Config(Builder builder) {
             this.inActiveTabAlpha = builder.inActiveTabAlpha;
@@ -661,6 +671,7 @@ public class BottomBarTab extends LinearLayout {
             this.badgeHidesWhenSelected = builder.hidesBadgeWhenSelected;
             this.titleTextAppearance = builder.titleTextAppearance;
             this.titleTypeFace = builder.titleTypeFace;
+            this.applyIconsColorFilter = builder.applyIconsColorFilter;
         }
 
         public static class Builder {
@@ -671,6 +682,7 @@ public class BottomBarTab extends LinearLayout {
             private int barColorWhenSelected;
             private int badgeBackgroundColor;
             private boolean hidesBadgeWhenSelected = true;
+            private boolean applyIconsColorFilter = true;
             private int titleTextAppearance;
             private Typeface titleTypeFace;
 
@@ -716,6 +728,11 @@ public class BottomBarTab extends LinearLayout {
 
             public Builder titleTypeFace(Typeface titleTypeFace) {
                 this.titleTypeFace = titleTypeFace;
+                return this;
+            }
+
+            public Builder applyIconsColorFilter(boolean applyIconsColorFilter) {
+                this.applyIconsColorFilter = applyIconsColorFilter;
                 return this;
             }
 

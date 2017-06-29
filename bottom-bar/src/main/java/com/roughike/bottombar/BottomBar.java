@@ -96,6 +96,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
     private int inActiveShiftingItemWidth;
     private int activeShiftingItemWidth;
 
+    private boolean applyIconsColorFilter;
+
     @Nullable
     private TabSelectionInterceptor tabSelectionInterceptor;
 
@@ -182,6 +184,10 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
         }
     }
 
+    public void setApplyIconsColorFilter(boolean applyIconsColorFilter) {
+        this.applyIconsColorFilter = applyIconsColorFilter;
+    }
+
     private void populateAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         primaryColor = MiscUtils.getColor(getContext(), R.attr.colorPrimary);
         screenWidth = MiscUtils.getScreenWidth(getContext());
@@ -212,6 +218,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
             titleTextAppearance = ta.getResourceId(R.styleable.BottomBar_bb_titleTextAppearance, 0);
             titleTypeFace = getTypeFaceFromAsset(ta.getString(R.styleable.BottomBar_bb_titleTypeFace));
             showShadow = ta.getBoolean(R.styleable.BottomBar_bb_showShadow, true);
+            applyIconsColorFilter = ta.getBoolean(R.styleable.BottomBar_bb_applyIconsColorFilter, true);
         } finally {
             ta.recycle();
         }
@@ -321,6 +328,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
                 .hideBadgeWhenSelected(hideBadgeWhenActive)
                 .titleTextAppearance(titleTextAppearance)
                 .titleTypeFace(titleTypeFace)
+                .applyIconsColorFilter(applyIconsColorFilter)
                 .build();
     }
 
