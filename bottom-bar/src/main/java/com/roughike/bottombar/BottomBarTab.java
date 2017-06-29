@@ -3,7 +3,6 @@ package com.roughike.bottombar;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -453,7 +452,7 @@ public class BottomBarTab extends LinearLayout {
         }
 
         if (titleView != null) {
-            titleView.setTextColor(Color.RED);
+            titleView.setTextColor(color);
         }
     }
 
