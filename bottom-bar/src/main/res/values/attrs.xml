@@ -14,8 +14,6 @@
         <attr name="bb_activeTabAlpha" format="float" />
         <attr name="bb_inActiveTabColor" format="color" />
         <attr name="bb_activeTabColor" format="color" />
-        <attr name="bb_activeTextColor" format="color" />
-        <attr name="bb_inActiveTextColor" format="color" />
         <attr name="bb_badgeBackgroundColor" format="color" />
         <attr name="bb_badgesHideWhenActive" format="boolean" />
         <attr name="bb_titleTextAppearance" format="reference" />
