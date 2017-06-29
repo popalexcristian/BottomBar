@@ -3,7 +3,6 @@ package com.roughike.bottombar;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +59,8 @@ public class BottomBarTab extends LinearLayout {
     private float activeAlpha;
     private int inActiveColor;
     private int activeColor;
+    private int inActiveTextColor;
+    private int activeTextColor;
     private int barColorWhenSelected;
     private int badgeBackgroundColor;
     private boolean badgeHidesWhenActive;
@@ -83,6 +84,8 @@ public class BottomBarTab extends LinearLayout {
         setActiveAlpha(config.activeTabAlpha);
         setInActiveColor(config.inActiveTabColor);
         setActiveColor(config.activeTabColor);
+        setInActiveTextColor(config.inActiveTextColor);
+        setActiveTextColor(config.activeTextColor);
         setBarColorWhenSelected(config.barColorWhenSelected);
         setBadgeBackgroundColor(config.badgeBackgroundColor);
         setBadgeHidesWhenActive(config.badgeHidesWhenSelected);
@@ -249,6 +252,28 @@ public class BottomBarTab extends LinearLayout {
         }
     }
 
+    public void setInActiveTextColor(int inActiveTextColor) {
+        this.inActiveTextColor = inActiveTextColor;
+
+        if (!isActive) {
+            setTextColor(inActiveTextColor);
+        }
+    }
+
+    private void setTextColor(int color) {
+        if (titleView != null) {
+            titleView.setTextColor(color);
+        }
+    }
+
+    public void setActiveTextColor(int activeTextColor) {
+        this.activeTextColor = activeTextColor;
+
+        if (isActive) {
+            setTextColor(activeTextColor);
+        }
+    }
+
     public int getActiveColor() {
         return activeColor;
     }
@@ -389,11 +414,13 @@ public class BottomBarTab extends LinearLayout {
             animateIcon(activeAlpha, ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
             animateTitle(sixDps, ACTIVE_TITLE_SCALE, activeAlpha);
             animateColors(inActiveColor, activeColor);
+            animateTextColors(inActiveTextColor, activeTextColor);
         } else {
             setTitleScale(ACTIVE_TITLE_SCALE);
             setTopPadding(sixDps);
             setIconScale(ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
             setColors(activeColor);
+            setTextColor(activeTextColor);
             setAlphas(activeAlpha);
         }
 
@@ -416,11 +443,13 @@ public class BottomBarTab extends LinearLayout {
             animateTitle(iconPaddingTop, titleScale, inActiveAlpha);
             animateIcon(inActiveAlpha, INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
             animateColors(activeColor, inActiveColor);
+            animateTextColors(activeTextColor, inActiveTextColor);
         } else {
             setTitleScale(titleScale);
             setTopPadding(iconPaddingTop);
             setIconScale(INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-            setColors(inActiveColor);
+            setColors(inActiveTextColor);
+            setTextColor(inActiveTextColor);
             setAlphas(inActiveAlpha);
         }
 
@@ -429,6 +458,21 @@ public class BottomBarTab extends LinearLayout {
         if (!isShifting && badge != null && !badge.isVisible()) {
             badge.show();
         }
+    }
+
+    private void animateTextColors(int previousColor, int color) {
+        ValueAnimator anim = new ValueAnimator();
+        anim.setIntValues(previousColor, color);
+        anim.setEvaluator(new ArgbEvaluator());
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                setTextColor((Integer) valueAnimator.getAnimatedValue());
+            }
+        });
+
+        anim.setDuration(150);
+        anim.start();
     }
 
     private void animateColors(int previousColor, int color) {
@@ -450,10 +494,6 @@ public class BottomBarTab extends LinearLayout {
         if (iconView != null) {
             iconView.setColorFilter(color);
             iconView.setTag(R.id.bb_bottom_bar_color_id, color);
-        }
-
-        if (titleView != null) {
-            titleView.setTextColor(Color.RED);
         }
     }
 
@@ -646,6 +686,8 @@ public class BottomBarTab extends LinearLayout {
         private final float activeTabAlpha;
         private final int inActiveTabColor;
         private final int activeTabColor;
+        private final int inActiveTextColor;
+        private final int activeTextColor;
         private final int barColorWhenSelected;
         private final int badgeBackgroundColor;
         private final int titleTextAppearance;
@@ -657,6 +699,8 @@ public class BottomBarTab extends LinearLayout {
             this.activeTabAlpha = builder.activeTabAlpha;
             this.inActiveTabColor = builder.inActiveTabColor;
             this.activeTabColor = builder.activeTabColor;
+            this.inActiveTextColor = builder.inActiveTextColor;
+            this.activeTextColor = builder.activeTextColor;
             this.barColorWhenSelected = builder.barColorWhenSelected;
             this.badgeBackgroundColor = builder.badgeBackgroundColor;
             this.badgeHidesWhenSelected = builder.hidesBadgeWhenSelected;
@@ -669,6 +713,8 @@ public class BottomBarTab extends LinearLayout {
             private float activeTabAlpha;
             private int inActiveTabColor;
             private int activeTabColor;
+            private int inActiveTextColor;
+            private int activeTextColor;
             private int barColorWhenSelected;
             private int badgeBackgroundColor;
             private boolean hidesBadgeWhenSelected = true;
@@ -692,6 +738,16 @@ public class BottomBarTab extends LinearLayout {
 
             public Builder activeTabColor(@ColorInt int color) {
                 this.activeTabColor = color;
+                return this;
+            }
+
+            public Builder activeTextColor(@ColorInt int color) {
+                this.activeTextColor = color;
+                return this;
+            }
+
+            public Builder inActiveTextColor(@ColorInt int color) {
+                this.inActiveTextColor = color;
                 return this;
             }
 

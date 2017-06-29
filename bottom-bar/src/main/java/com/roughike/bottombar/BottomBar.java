@@ -76,6 +76,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
     private float activeTabAlpha;
     private int inActiveTabColor;
     private int activeTabColor;
+    private int inActiveTextColor;
+    private int activeTextColor;
     private int badgeBackgroundColor;
     private boolean hideBadgeWhenActive;
     private boolean longPressHintsEnabled;
@@ -207,6 +209,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
             longPressHintsEnabled = ta.getBoolean(R.styleable.BottomBar_bb_longPressHintsEnabled, true);
             inActiveTabColor = ta.getColor(R.styleable.BottomBar_bb_inActiveTabColor, defaultInActiveColor);
             activeTabColor = ta.getColor(R.styleable.BottomBar_bb_activeTabColor, defaultActiveColor);
+            inActiveTextColor = ta.getColor(R.styleable.BottomBar_bb_inActiveTextColor, Color.TRANSPARENT);
+            activeTextColor = ta.getColor(R.styleable.BottomBar_bb_activeTextColor, Color.DKGRAY);
             badgeBackgroundColor = ta.getColor(R.styleable.BottomBar_bb_badgeBackgroundColor, Color.RED);
             hideBadgeWhenActive = ta.getBoolean(R.styleable.BottomBar_bb_badgesHideWhenActive, true);
             titleTextAppearance = ta.getResourceId(R.styleable.BottomBar_bb_titleTextAppearance, 0);
@@ -316,6 +320,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
                 .activeTabAlpha(activeTabAlpha)
                 .inActiveTabColor(inActiveTabColor)
                 .activeTabColor(activeTabColor)
+                .inActiveTextColor(inActiveTextColor)
+                .activeTextColor(activeTextColor)
                 .barColorWhenSelected(defaultBackgroundColor)
                 .badgeBackgroundColor(badgeBackgroundColor)
                 .hideBadgeWhenSelected(hideBadgeWhenActive)
