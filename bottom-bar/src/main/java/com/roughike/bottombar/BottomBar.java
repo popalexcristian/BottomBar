@@ -188,16 +188,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
         this.applyIconsColorFilter = applyIconsColorFilter;
     }
 
-    public void usePrimaryColor(boolean usePrimaryColor) {
-        if (usePrimaryColor) {
-            primaryColor = MiscUtils.getColor(getContext(), R.attr.colorPrimary);
-        } else {
-            primaryColor = activeTabColor;
-        }
-    }
-
     private void populateAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        primaryColor = MiscUtils.getColor(getContext(), R.attr.colorPrimary);
         screenWidth = MiscUtils.getScreenWidth(getContext());
         tenDp = MiscUtils.dpToPixel(getContext(), 10);
         maxFixedItemWidth = MiscUtils.dpToPixel(getContext(), 168);
@@ -221,6 +212,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
             longPressHintsEnabled = ta.getBoolean(R.styleable.BottomBar_bb_longPressHintsEnabled, true);
             inActiveTabColor = ta.getColor(R.styleable.BottomBar_bb_inActiveTabColor, defaultInActiveColor);
             activeTabColor = ta.getColor(R.styleable.BottomBar_bb_activeTabColor, defaultActiveColor);
+            primaryColor = activeTabColor;
             badgeBackgroundColor = ta.getColor(R.styleable.BottomBar_bb_badgeBackgroundColor, Color.RED);
             hideBadgeWhenActive = ta.getBoolean(R.styleable.BottomBar_bb_badgesHideWhenActive, true);
             titleTextAppearance = ta.getResourceId(R.styleable.BottomBar_bb_titleTextAppearance, 0);
