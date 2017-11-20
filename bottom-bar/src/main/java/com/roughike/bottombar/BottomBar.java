@@ -188,6 +188,14 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
         this.applyIconsColorFilter = applyIconsColorFilter;
     }
 
+    public void usePrimaryColor(boolean usePrimaryColor) {
+        if (usePrimaryColor) {
+            primaryColor = MiscUtils.getColor(getContext(), R.attr.colorPrimary);
+        } else {
+            primaryColor = activeTabColor;
+        }
+    }
+
     private void populateAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         primaryColor = MiscUtils.getColor(getContext(), R.attr.colorPrimary);
         screenWidth = MiscUtils.getScreenWidth(getContext());
