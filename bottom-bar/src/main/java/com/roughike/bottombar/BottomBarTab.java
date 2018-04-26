@@ -388,17 +388,23 @@ public class BottomBarTab extends LinearLayout {
         return titleTypeFace;
     }
 
-    void select(boolean animate) {
+    void select(boolean animate, boolean animateTabSwitch) {
         isActive = true;
 
         if (animate) {
-            animateIcon(activeAlpha, ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-            animateTitle(sixDps, ACTIVE_TITLE_SCALE, activeAlpha);
+            if (animateTabSwitch) {
+                animateIcon(activeAlpha, ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+                animateTitle(sixDps, ACTIVE_TITLE_SCALE, activeAlpha);
+            }
             animateColors(inActiveColor, activeColor);
         } else {
-            setTitleScale(ACTIVE_TITLE_SCALE);
-            setTopPadding(sixDps);
-            setIconScale(ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+            if (animateTabSwitch) {
+                setTitleScale(ACTIVE_TITLE_SCALE);
+                setIconScale(ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+            } else {
+                setTopPadding(sixteenDps);
+            }
+
             setColors(activeColor);
             setAlphas(activeAlpha);
         }
@@ -410,22 +416,27 @@ public class BottomBarTab extends LinearLayout {
         }
     }
 
-    void deselect(boolean animate) {
+    void deselect(boolean animate, boolean animateTabSwitch) {
         isActive = false;
 
         boolean isShifting = type == Type.SHIFTING;
 
         float titleScale = isShifting ? 0 : INACTIVE_FIXED_TITLE_SCALE;
         int iconPaddingTop = isShifting ? sixteenDps : eightDps;
+        setTopPadding(iconPaddingTop);
 
         if (animate) {
-            animateTitle(iconPaddingTop, titleScale, inActiveAlpha);
-            animateIcon(inActiveAlpha, INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+            if (animateTabSwitch) {
+                animateTitle(iconPaddingTop, titleScale, inActiveAlpha);
+                animateIcon(inActiveAlpha, INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+            }
             animateColors(activeColor, inActiveColor);
         } else {
-            setTitleScale(titleScale);
-            setTopPadding(iconPaddingTop);
-            setIconScale(INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+
+            if (animateTabSwitch) {
+                setTitleScale(titleScale);
+                setIconScale(INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
+            }
             setColors(inActiveColor);
             setAlphas(inActiveAlpha);
         }

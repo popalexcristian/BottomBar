@@ -79,6 +79,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
     private int badgeBackgroundColor;
     private boolean hideBadgeWhenActive;
     private boolean longPressHintsEnabled;
+    private boolean animateTabSwitch;
     private int titleTextAppearance;
     private Typeface titleTypeFace;
     private boolean showShadow;
@@ -199,6 +200,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
         try {
             tabXmlResource = ta.getResourceId(R.styleable.BottomBar_bb_tabXmlResource, 0);
             isTabletMode = ta.getBoolean(R.styleable.BottomBar_bb_tabletMode, false);
+            animateTabSwitch = ta.getBoolean(R.styleable.BottomBar_bb_animateTabSwitch, true);
             behaviors = ta.getInteger(R.styleable.BottomBar_bb_behavior, BEHAVIOR_NONE);
             inActiveTabAlpha = ta.getFloat(R.styleable.BottomBar_bb_inActiveTabAlpha,
                     isShiftingMode() ? DEFAULT_INACTIVE_SHIFTING_TAB_ALPHA : 1);
@@ -359,11 +361,11 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
             bottomBarTab.prepareLayout();
 
             if (index == currentTabPosition) {
-                bottomBarTab.select(false);
+                bottomBarTab.select(false, false);
 
                 handleBackgroundColorChange(bottomBarTab, false);
             } else {
-                bottomBarTab.deselect(false);
+                bottomBarTab.deselect(false, false);
             }
 
             if (!isTabletMode) {
@@ -566,8 +568,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
         BottomBarTab oldTab = getCurrentTab();
         BottomBarTab newTab = getTabAtPosition(position);
 
-        oldTab.deselect(animate);
-        newTab.select(animate);
+        oldTab.deselect(animate, animateTabSwitch);
+        newTab.select(animate, animateTabSwitch);
 
         updateSelectedTab(position);
         shiftingMagic(oldTab, newTab, animate);
@@ -926,8 +928,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
             return;
         }
 
-        oldTab.deselect(true);
-        newTab.select(true);
+        oldTab.deselect(true, animateTabSwitch);
+        newTab.select(true, animateTabSwitch);
 
         shiftingMagic(oldTab, newTab, true);
         handleBackgroundColorChange(newTab, true);
