@@ -400,6 +400,7 @@ public class BottomBarTab extends LinearLayout {
         } else {
             if (animateTabSwitch) {
                 setTitleScale(ACTIVE_TITLE_SCALE);
+                setTopPadding(sixDps);
                 setIconScale(ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
             } else {
                 setTopPadding(sixteenDps);
