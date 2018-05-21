@@ -95,7 +95,7 @@ public class BottomBarTab extends LinearLayout {
     void prepareLayout() {
         inflate(getContext(), getLayoutResource(), this);
         setOrientation(VERTICAL);
-        setGravity(isTitleless ? Gravity.CENTER : Gravity.CENTER_HORIZONTAL);
+        setGravity(Gravity.CENTER);
         setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         setBackgroundResource(MiscUtils.getDrawableRes(getContext(), R.attr.selectableItemBackgroundBorderless));
 
@@ -392,20 +392,8 @@ public class BottomBarTab extends LinearLayout {
         isActive = true;
 
         if (animate) {
-            if (animateTabSwitch) {
-                animateIcon(activeAlpha, ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-                animateTitle(sixDps, ACTIVE_TITLE_SCALE, activeAlpha);
-            }
             animateColors(inActiveColor, activeColor);
         } else {
-            if (animateTabSwitch) {
-                setTitleScale(ACTIVE_TITLE_SCALE);
-                setTopPadding(sixteenDps);
-                setIconScale(ACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-            } else {
-                setTopPadding(sixteenDps);
-            }
-
             setColors(activeColor);
             setAlphas(activeAlpha);
         }
@@ -422,22 +410,9 @@ public class BottomBarTab extends LinearLayout {
 
         boolean isShifting = type == Type.SHIFTING;
 
-        float titleScale = isShifting ? 0 : INACTIVE_FIXED_TITLE_SCALE;
-        int iconPaddingTop = isShifting ? sixteenDps : eightDps;
-        setTopPadding(iconPaddingTop);
-
         if (animate) {
-            if (animateTabSwitch) {
-                animateTitle(iconPaddingTop, titleScale, inActiveAlpha);
-                animateIcon(inActiveAlpha, INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-            }
             animateColors(activeColor, inActiveColor);
         } else {
-
-            if (animateTabSwitch) {
-                setTitleScale(titleScale);
-                setIconScale(INACTIVE_SHIFTING_TITLELESS_ICON_SCALE);
-            }
             setColors(inActiveColor);
             setAlphas(inActiveAlpha);
         }
